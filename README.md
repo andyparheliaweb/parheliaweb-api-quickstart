@@ -14,6 +14,7 @@ This repository contains copy-paste code snippets for our transparent, developer
 ## 🚀 Quickstart: Email Validation
 
 Grab your free API key (100 free verifications/month) from the [developer portal](https://parheliaweb.com/register).
+```
 
 ### cURL
 
