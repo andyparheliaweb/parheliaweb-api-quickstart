@@ -18,8 +18,8 @@ Grab your free API key (100 free verifications/month) from the [developer portal
 ### cURL
 
 ```bash
-curl -X POST "https://api.parheliaweb.com/v1/email/validate" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST "https://parheliaweb.com/v1/email/validate" \
+  -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"email": "test@example.com"}'
 ```
@@ -29,15 +29,26 @@ curl -X POST "https://api.parheliaweb.com/v1/email/validate" \
 ```python
 import requests
 
-url = "https://api.parheliaweb.com/v1/email/validate"
-headers = {
-    "Authorization": "Bearer YOUR_API_KEY",
-    "Content-Type": "application/json"
-}
-payload = {"email": "test@example.com"}
+def validate_email(email, api_key):
+    """
+    Validate an email address using ParheliaWeb API.
+    Get your free API key: https://parheliaweb.com/register
+    """
+    url = "https://parheliaweb.com/v1/email/validate"
+    headers = {
+        "x-api-key": api_key,
+        "Content-Type": "application/json"
+    }
+    payload = {"email": email}
+    
+    response = requests.post(url, json=payload, headers=headers)
+    return response.json()
 
-response = requests.post(url, json=payload, headers=headers)
-print(response.json())
+# Example usage
+if __name__ == "__main__":
+    API_KEY = "YOUR_API_KEY_HERE"
+    result = validate_email("test@example.com", API_KEY)
+    print(result)
 ```
 
 ### Node.js
@@ -45,24 +56,36 @@ print(response.json())
 ```javascript
 const axios = require('axios');
 
-const validateEmail = async (email) => {
+/**
+ * Validate an email address using ParheliaWeb API.
+ * Get your free API key: https://parheliaweb.com/register
+ */
+const validateEmail = async (email, apiKey) => {
   try {
-    const response = await axios.post('https://api.parheliaweb.com/v1/email/validate', 
+    const response = await axios.post(
+      'https://parheliaweb.com/v1/email/validate',
       { email: email },
       {
         headers: {
-          'Authorization': 'Bearer YOUR_API_KEY',
+          'x-api-key': apiKey,
           'Content-Type': 'application/json'
         }
       }
     );
-    console.log(response.data);
+    return response.data;
   } catch (error) {
-    console.error(error.response.data);
+    console.error('Validation error:', error.response?.data || error.message);
+    throw error;
   }
 };
 
-validateEmail('test@example.com');
+// Example usage
+const API_KEY = 'YOUR_API_KEY_HERE';
+validateEmail('test@example.com', API_KEY)
+  .then(result => console.log(result))
+  .catch(err => console.error(err));
+
+module.exports = { validateEmail };
 ```
 
 ## 🧠 What makes ParheliaWeb different?
@@ -76,8 +99,8 @@ Because providers like Microsoft and Yahoo accept almost everything during the S
 Need to validate a list? Use our batch endpoint. Send up to 100 emails in a single request:
 
 ```bash
-curl -X POST "https://api.parheliaweb.com/v1/email/validate/batch" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+curl -X POST "https://parheliaweb.com/v1/email/validate/batch" \
+  -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"emails": ["test1@example.com", "test2@example.com"]}'
 ```
