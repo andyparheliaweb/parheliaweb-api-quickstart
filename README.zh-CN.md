@@ -2,13 +2,13 @@
 
 # ParheliaWeb API 快速入门
 
-60秒内快速开始使用 ParheliaWeb API。
+60秒内快速开始使用 [ParheliaWeb API](https://parheliaweb.com/zh)。
 
 本仓库包含为我们透明、开发者优先的 API 提供的可直接复制粘贴的代码片段。没有黑盒操作，没有企业级溢价，也没有隐藏费用。
 
 ## 🔗 官方资源
 
-- [完整 API 文档](https://parheliaweb.com/zh/docs) - 包含端点参考、响应架构和错误代码。
+- [完整 API 文档](https://parheliaweb.com/zh/docs-email) - 包含端点参考、响应架构和错误代码。
 - [透明定价](https://parheliaweb.com/zh/email-pricing) - 统一、可预测的定价。无需"联系销售"。
 - [为什么选择 ParheliaWeb？](https://parheliaweb.com/zh/why-choose-us) - 了解我们与其他普通验证 API 的对比（真实 SMTP 检查、各阶段计时、符合 GDPR）。
 
@@ -110,5 +110,5 @@ curl -X POST "https://parheliaweb.com/v1/email/validate/batch" \
 
 由位于荷兰的独立创始人构建。如果您发现错误、有功能建议，或者只是想聊聊 Python 和 API，请随时联系我们：
 
-- 📧 电子邮件: info@parheliaweb.com
+- 📧 电子邮件: [info@parheliaweb.com](mailto:info@parheliaweb.com)
 - 🌐 网站: [parheliaweb.com/zh](https://parheliaweb.com/zh)
