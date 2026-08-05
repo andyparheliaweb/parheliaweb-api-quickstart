@@ -1,4 +1,5 @@
-```markdown
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 # ParheliaWeb API Quickstart
 
 Get started with the [ParheliaWeb API](https://parheliaweb.com) in 60 seconds. 
