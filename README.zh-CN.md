@@ -36,6 +36,10 @@
 
 
 
+*（lang=zh 参数为可选，默认为英文）*
+
+
+
 ```bash
 curl -X POST "https://parheliaweb.com/v1/email/validate" -H "x-api-key: YOUR_API_KEY" -H "Content-Type: application/json" -d '{"email": "test@example.com", "lang": "zh"}'
 ```
@@ -59,7 +63,7 @@ def validate_email(email, api_key):
         "x-api-key": api_key,
         "Content-Type": "application/json"
     }
-    payload = {"email": email, "lang": "zh"}  # 添加 "lang": "zh" 可返回中文响应值
+    payload = {"email": email, "lang": "zh"}  # 可选：添加 "lang": "zh" 返回中文响应（默认为英文）
 
     response = requests.post(url, json=payload, headers=headers)
     return response.json()
@@ -88,6 +92,10 @@ if __name__ == "__main__":
 
 
 
+*（lang=zh 参数为可选，默认为英文）*
+
+
+
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" "https://parheliaweb.com/v1/funding?max_age_days=30&lang=zh"
 ```
@@ -110,7 +118,7 @@ def get_funding_data(api_key, max_days=30):
     headers = {"x-api-key": api_key}
     params = {
         "max_age_days": max_days,
-        "lang": "zh"  # 添加 lang=zh 可返回中文响应值
+        "lang": "zh"  # 可选：添加 lang=zh 返回中文响应（默认为英文）
     }
 
     response = requests.get(url, headers=headers, params=params)
