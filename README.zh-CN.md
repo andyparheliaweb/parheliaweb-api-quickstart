@@ -76,6 +76,66 @@ if __name__ == "__main__":
 
 
 
+###  API 响应示例
+
+
+
+```json
+{
+  "status": "ok",
+  "result": {
+    "email": "test@spidernet.nl",
+    "status": "无效",
+    "confidence": 95,
+    "syntax_valid": true,
+    "deliverability_score": 0,
+    "is_role_based": false,
+    "domain_check": {
+      "passed": false,
+      "whitelisted": false,
+      "blacklisted": true,
+      "blacklist_match": {
+        "type": "static_domain",
+        "domain": "spidernet.nl",
+        "reason": "从旧版黑名单迁移",
+        "category": "垃圾邮件",
+        "severity": 5
+      },
+      "checks_performed": ["黑名单命中"]
+    },
+    "mx_valid": false,
+    "mx_servers": [],
+    "smtp_check": {
+      "performed": false,
+      "result": null,
+      "code": null,
+      "message": "已跳过：域名已拒绝"
+    },
+    "risk_factors": [
+      {
+        "factor": "域名已拒绝",
+        "severity": "严重",
+        "detail": {
+          "type": "static_domain",
+          "domain": "spidernet.nl",
+          "reason": "从旧版黑名单迁移",
+          "category": "垃圾邮件",
+          "severity": 5
+        }
+      }
+    ],
+    "performance_ms": {
+      "total": 0,
+      "phases": {"cached": 0}
+    },
+    "first_seen": "2026-06-06 20:03:33",
+    "cached": true
+  }
+}
+```
+
+
+
 ##  📊 快速开始：商业数据 API
 
 
@@ -129,6 +189,40 @@ if __name__ == "__main__":
     data = get_funding_data(API_KEY, max_days=30)
     for item in data.get("results", []):
         print(f"{item['company_name']} raised {item['funding_amount']}")
+```
+
+
+
+###  响应示例（专业版）
+
+
+
+```json
+{
+  "user_tier": "pro",
+  "count": 1,
+  "max_age_days": 365,
+  "last_crawled": "2026-05-28T12:04:02Z",
+  "results": [
+    {
+      "company_name": "Squid",
+      "funding_amount": "$6 million",
+      "round_type": "风险投资",
+      "announcement_date": "2026-05-25",
+      "source_url": "https://pulse2.com/...",
+      "source_status": "active",
+      "sector": "金融科技",
+      "currency": "USD",
+      "country": "美国",
+      "region": "北美洲",
+      "lead_investor": "Sequoia Capital",
+      "is_extension": false,
+      "investor_count": "5",
+      "company_domain": "squid.com",
+      "hiring_signal": true
+    }
+  ]
+}
 ```
 
 
