@@ -76,6 +76,66 @@ if __name__ == "__main__":
 
 
 
+###  Example API Response
+
+
+
+```json
+{
+  "status": "ok",
+  "result": {
+    "email": "test@spidernet.nl",
+    "status": "invalid",
+    "confidence": 95,
+    "syntax_valid": true,
+    "deliverability_score": 0,
+    "is_role_based": false,
+    "domain_check": {
+      "passed": false,
+      "whitelisted": false,
+      "blacklisted": true,
+      "blacklist_match": {
+        "type": "static_domain",
+        "domain": "spidernet.nl",
+        "reason": "Migrated from legacy blacklist",
+        "category": "spam",
+        "severity": 5
+      },
+      "checks_performed": ["blacklist_hit"]
+    },
+    "mx_valid": false,
+    "mx_servers": [],
+    "smtp_check": {
+      "performed": false,
+      "result": null,
+      "code": null,
+      "message": "Skipped: domain rejected"
+    },
+    "risk_factors": [
+      {
+        "factor": "domain_rejected",
+        "severity": "critical",
+        "detail": {
+          "type": "static_domain",
+          "domain": "spidernet.nl",
+          "reason": "Migrated from legacy blacklist",
+          "category": "spam",
+          "severity": 5
+        }
+      }
+    ],
+    "performance_ms": {
+      "total": 0,
+      "phases": {"cached": 0}
+    },
+    "first_seen": "2026-06-06 20:03:33",
+    "cached": true
+  }
+}
+```
+
+
+
 ##  📊 Quickstart: Business Data APIs
 
 
@@ -129,6 +189,39 @@ if __name__ == "__main__":
     data = get_funding_data(API_KEY, max_days=30)
     for item in data.get("results", []):
         print(f"{item['company_name']} raised {item['funding_amount']}")
+```
+
+
+
+###  Example Response (Pro tier)
+
+
+
+```json
+{
+  "user_tier": "pro",
+  "count": 2,
+  "max_age_days": 365,
+  "last_crawled": "2026-05-28T12:04:02Z",
+  "results": [
+    {
+      "company_name": "Squid",
+      "funding_amount": "$6 million",
+      "round_type": "Venture",
+      "announcement_date": "2026-05-25",
+      "source_url": "https://pulse2.com/...",
+      "source_status": "active",
+      "sector": "Fintech",
+      "currency": "USD",
+      "country": "US",
+      "lead_investor": "Sequoia Capital",
+      "is_extension": false,
+      "investor_count": "5",
+      "company_domain": "squid.com",
+      "hiring_signal": true
+    }
+  ]
+}
 ```
 
 
