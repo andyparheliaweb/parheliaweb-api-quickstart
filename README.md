@@ -1,12 +1,12 @@
-[English](README.md) | [简体中文](README.zh-CN.md)
+English | [简体中文](README.zh-CN.md)
 
 
 
-# ParheliaWeb API Quickstart
+#  ParheliaWeb API Quickstart
 
 
 
-Get started with the [ParheliaWeb API](https://parheliaweb.com) in 60 seconds. 
+Get started with the [ParheliaWeb API](https://parheliaweb.com) in 60 seconds.
 
 
 
@@ -14,17 +14,17 @@ This repository contains copy-paste code snippets for our transparent, developer
 
 
 
-## 🔗 Official Resources
+##  🔗 Official Resources
 
 
 
--  **[Full API Documentation](https://parheliaweb.com/docs-email)** - Complete endpoint reference, response schemas, and error codes.
--  **[Transparent Pricing](https://parheliaweb.com/email-pricing)** - Flat, predictable pricing. No "contact sales" gatekeeping.
--  **[Why Choose ParheliaWeb?](https://parheliaweb.com/why-choose-us)** - See how we compare to typical verification APIs (real SMTP checks, per-phase timing, GDPR compliant).
+-  [Full API Documentation](https://parheliaweb.com/docs-email) - Complete endpoint reference, response schemas, and error codes.
+-  [Transparent Pricing](https://parheliaweb.com/email-pricing) - Flat, predictable pricing. No "contact sales" gatekeeping.
+-  [Why Choose ParheliaWeb?](https://parheliaweb.com/why-choose-us) - See how we compare to typical verification APIs (real SMTP checks, per-phase timing, GDPR compliant).
 
 
 
-## 🚀 Quickstart: Email Validation
+##  🚀 Quickstart: Email Validation
 
 
 
@@ -32,20 +32,17 @@ Grab your free API key (100 free verifications/month) from the [developer portal
 
 
 
-### cURL
+###  cURL
 
 
 
 ```bash
-curl -X POST "https://parheliaweb.com/v1/email/validate" \
-  -H "x-api-key: YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '("email": "test@example.com")'
+curl -X POST "https://parheliaweb.com/v1/email/validate" -H "x-api-key: YOUR_API_KEY" -H "Content-Type: application/json" -d '{"email": "test@example.com", "lang": "zh"}'
 ```
 
 
 
-### Python
+###  Python
 
 
 
@@ -58,15 +55,16 @@ def validate_email(email, api_key):
     Get your free API key: https://parheliaweb.com/register
     """
     url = "https://parheliaweb.com/v1/email/validate"
-    headers = (
+    headers = {
         "x-api-key": api_key,
         "Content-Type": "application/json"
-    )
-    payload = ("email": email)
-response = requests.post(url, json=payload, headers=headers)
-return response.json()
-Example usage
-if name == "main":
+    }
+    payload = {"email": email, "lang": "zh"}  # Add "lang": "zh" for Chinese response values
+
+    response = requests.post(url, json=payload, headers=headers)
+    return response.json()
+
+if __name__ == "__main__":
     API_KEY = "YOUR_API_KEY_HERE"
     result = validate_email("test@example.com", API_KEY)
     print(result)
@@ -74,14 +72,11 @@ if name == "main":
 
 
 
+##  📊 Quickstart: Business Data APIs
 
 
 
-## 📊 Quickstart: Business Data APIs
-
-
-
-Track real-time startup funding, layoffs, M&A, IPOs, and regulatory fines. All 5 data APIs use the same simple `GET` request format. 
+Track real-time startup funding, layoffs, M&A, IPOs, and regulatory fines. All 5 data APIs use the same simple GET request format.
 
 
 
@@ -89,18 +84,17 @@ Grab your free API key (100 free calls/day per API) from the [developer portal](
 
 
 
-### cURL (Funding API Example)
+###  cURL (Funding API Example)
 
 
 
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" \
-  "https://parheliaweb.com/v1/funding?max_age_days=30"
+curl -H "x-api-key: YOUR_API_KEY" "https://parheliaweb.com/v1/funding?max_age_days=30&lang=zh"
 ```
 
 
 
-### Python (Funding API Example)
+###  Python (Funding API Example)
 
 
 
@@ -113,34 +107,37 @@ def get_funding_data(api_key, max_days=30):
     Get your free API key: https://parheliaweb.com/register
     """
     url = "https://parheliaweb.com/v1/funding"
-    headers = ("x-api-key": api_key)
-    params = ("max_age_days": max_days)
-response = requests.get(url, headers=headers, params=params)
-return response.json()
-Example usage
+    headers = {"x-api-key": api_key}
+    params = {
+        "max_age_days": max_days,
+        "lang": "zh"  # Add lang=zh for Chinese response values
+    }
 
-if name == "main":
+    response = requests.get(url, headers=headers, params=params)
+    return response.json()
+
+if __name__ == "__main__":
     API_KEY = "YOUR_API_KEY_HERE"
     data = get_funding_data(API_KEY, max_days=30)
-    for round in data.get("results", []):
-        print(f"(round['company_name']) raised (round['funding_amount'])")
+    for item in data.get("results", []):
+        print(f"{item['company_name']} raised {item['funding_amount']}")
 ```
 
 
 
-Available Data API Endpoints
+###  Available Data API Endpoints
 
 
 
--  **Funding Rounds**: `GET /v1/funding`
--  **Layoffs**: `GET /v1/layoffs`
--  **Acquisitions**: `GET /v1/acquisitions`
--  **IPO Filings**: `GET /v1/ipos`
--  **Regulatory Fines**: `GET /v1/fines`
+-  Funding Rounds: GET /v1/funding
+-  Layoffs: GET /v1/layoffs
+-  Acquisitions: GET /v1/acquisitions
+-  IPO Filings: GET /v1/ipos
+-  Regulatory Fines: GET /v1/fines
 
 
 
-## 🤝 Support
+##  🤝 Support
 
 
 
