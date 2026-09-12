@@ -36,6 +36,10 @@ Grab your free API key (100 free verifications/month) from the [developer portal
 
 
 
+*(The lang=zh parameter is optional and defaults to English)*
+
+
+
 ```bash
 curl -X POST "https://parheliaweb.com/v1/email/validate" -H "x-api-key: YOUR_API_KEY" -H "Content-Type: application/json" -d '{"email": "test@example.com", "lang": "zh"}'
 ```
@@ -59,7 +63,7 @@ def validate_email(email, api_key):
         "x-api-key": api_key,
         "Content-Type": "application/json"
     }
-    payload = {"email": email, "lang": "zh"}  # Add "lang": "zh" for Chinese response values
+    payload = {"email": email, "lang": "zh"}  # Optional: set "lang": "zh" for Chinese responses (defaults to English)
 
     response = requests.post(url, json=payload, headers=headers)
     return response.json()
@@ -88,6 +92,10 @@ Grab your free API key (100 free calls/day per API) from the [developer portal](
 
 
 
+*(The lang=zh parameter is optional and defaults to English)*
+
+
+
 ```bash
 curl -H "x-api-key: YOUR_API_KEY" "https://parheliaweb.com/v1/funding?max_age_days=30&lang=zh"
 ```
@@ -110,7 +118,7 @@ def get_funding_data(api_key, max_days=30):
     headers = {"x-api-key": api_key}
     params = {
         "max_age_days": max_days,
-        "lang": "zh"  # Add lang=zh for Chinese response values
+        "lang": "zh"  # Optional: set lang=zh for Chinese responses (defaults to English)
     }
 
     response = requests.get(url, headers=headers, params=params)
