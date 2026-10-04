@@ -2,7 +2,7 @@ English | [简体中文](README.zh-CN.md)
 
 
 
-#  ParheliaWeb API Quickstart
+# ParheliaWeb API Quickstart
 
 
 
@@ -32,16 +32,19 @@ Grab your free API key (100 free verifications/month) from the [developer portal
 
 
 
+All snippets below return **English responses** by default. To receive Chinese field values instead, add the optional `lang=zh` parameter to your request.
+
+
+
 ###  cURL
 
 
 
-*(The lang=zh parameter is optional and defaults to English)*
-
-
-
 ```bash
-curl -X POST "https://parheliaweb.com/v1/email/validate" -H "x-api-key: YOUR_API_KEY" -H "Content-Type: application/json" -d '{"email": "test@example.com", "lang": "zh"}'
+curl -X POST "https://parheliaweb.com/v1/email/validate" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com"}'
 ```
 
 
@@ -63,7 +66,7 @@ def validate_email(email, api_key):
         "x-api-key": api_key,
         "Content-Type": "application/json"
     }
-    payload = {"email": email, "lang": "zh"}  # Optional: set "lang": "zh" for Chinese responses (defaults to English)
+    payload = {"email": email}  # Optional: add "lang": "zh" for Chinese responses (defaults to English)
 
     response = requests.post(url, json=payload, headers=headers)
     return response.json()
@@ -72,6 +75,163 @@ if __name__ == "__main__":
     API_KEY = "YOUR_API_KEY_HERE"
     result = validate_email("test@example.com", API_KEY)
     print(result)
+```
+
+
+
+###  PHP
+
+
+
+```php
+<?php
+
+function validate_email($email, $api_key) {
+    /**
+     * Validate an email address using ParheliaWeb API.
+     * Get your free API key: https://parheliaweb.com/register
+     */
+    $url = "https://parheliaweb.com/v1/email/validate";
+
+    $payload = json_encode([
+        "email" => $email,
+        // Optional: add "lang" => "zh" for Chinese responses (defaults to English)
+    ]);
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+        CURLOPT_HTTPHEADER     => [
+            "x-api-key: " . $api_key,
+            "Content-Type: application/json"
+        ],
+        CURLOPT_POSTFIELDS     => $payload
+    ]);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code !== 200) {
+        throw new Exception("API error (HTTP " . $http_code . "): " . $response);
+    }
+
+    return json_decode($response, true);
+}
+
+// --- Usage ---
+ $API_KEY = "YOUR_API_KEY_HERE";
+ $result = validate_email("test@example.com", $API_KEY);
+
+echo "Status: " . $result["result"]["status"] . "\n";
+echo "Confidence: " . $result["result"]["confidence"] . "%\n";
+echo "Deliverability: " . $result["result"]["deliverability_score"] . "%\n";
+```
+
+
+
+###  JavaScript (Node.js 18+)
+
+
+
+```javascript
+/**
+ * Validate an email address using ParheliaWeb API.
+ * Get your free API key: https://parheliaweb.com/register
+ */
+async function validateEmail(email, apiKey) {
+    const response = await fetch("https://parheliaweb.com/v1/email/validate", {
+        method: "POST",
+        headers: {
+            "x-api-key": apiKey,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            // Optional: add lang: "zh" for Chinese responses (defaults to English)
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`API error (HTTP ${response.status})`);
+    }
+
+    return response.json();
+}
+
+// --- Usage ---
+const API_KEY = "YOUR_API_KEY_HERE";
+
+validateEmail("test@example.com", API_KEY)
+    .then(data => {
+        console.log("Status:", data.result.status);
+        console.log("Confidence:", data.result.confidence + "%");
+        console.log("Deliverability:", data.result.deliverability_score + "%");
+    })
+    .catch(err => console.error(err));
+```
+
+
+
+###  Go
+
+
+
+```go
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io"
+    "log"
+    "net/http"
+)
+
+// validateEmail validates an email address using ParheliaWeb API.
+// Get your free API key: https://parheliaweb.com/register
+func validateEmail(email, apiKey string) (map[string]interface{}, error) {
+    payload, _ := json.Marshal(map[string]string{
+        "email": email,
+        // Optional: add "lang": "zh" for Chinese responses (defaults to English)
+    })
+
+    req, err := http.NewRequest("POST", "https://parheliaweb.com/v1/email/validate", bytes.NewBuffer(payload))
+    if err != nil {
+        return nil, err
+    }
+    req.Header.Set("x-api-key", apiKey)
+    req.Header.Set("Content-Type", "application/json")
+
+    resp, err := http.DefaultClient.Do(req)
+    if err != nil {
+        return nil, err
+    }
+    defer resp.Body.Close()
+
+    body, _ := io.ReadAll(resp.Body)
+    if resp.StatusCode != 200 {
+        return nil, fmt.Errorf("API error (HTTP %d): %s", resp.StatusCode, body)
+    }
+
+    var result map[string]interface{}
+    if err := json.Unmarshal(body, &result); err != nil {
+        return nil, err
+    }
+    return result, nil
+}
+
+func main() {
+    apiKey := "YOUR_API_KEY_HERE"
+    result, err := validateEmail("test@example.com", apiKey)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(result)
+}
 ```
 
 
@@ -148,16 +308,17 @@ Grab your free API key (100 free calls/day per API) from the [developer portal](
 
 
 
+All snippets below return **English responses** by default. To receive Chinese field values instead, add the optional `lang=zh` parameter to your request.
+
+
+
 ###  cURL (Funding API Example)
 
 
 
-*(The lang=zh parameter is optional and defaults to English)*
-
-
-
 ```bash
-curl -H "x-api-key: YOUR_API_KEY" "https://parheliaweb.com/v1/funding?max_age_days=30&lang=zh"
+curl -H "x-api-key: YOUR_API_KEY" \
+  "https://parheliaweb.com/v1/funding?max_age_days=30"
 ```
 
 
@@ -178,7 +339,7 @@ def get_funding_data(api_key, max_days=30):
     headers = {"x-api-key": api_key}
     params = {
         "max_age_days": max_days,
-        "lang": "zh"  # Optional: set lang=zh for Chinese responses (defaults to English)
+        # Optional: add "lang": "zh" for Chinese responses (defaults to English)
     }
 
     response = requests.get(url, headers=headers, params=params)
@@ -193,6 +354,159 @@ if __name__ == "__main__":
 
 
 
+###  PHP (Funding API Example)
+
+
+
+```php
+<?php
+
+function get_funding_data($api_key, $max_days = 30) {
+    /**
+     * Get latest startup funding rounds using ParheliaWeb API.
+     * Get your free API key: https://parheliaweb.com/register
+     */
+    $params = http_build_query([
+        "max_age_days" => $max_days,
+        // Optional: add "lang" => "zh" for Chinese responses (defaults to English)
+    ]);
+    $url = "https://parheliaweb.com/v1/funding?" . $params;
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+        CURLOPT_HTTPHEADER     => ["x-api-key: " . $api_key]
+    ]);
+
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($http_code !== 200) {
+        throw new Exception("API error (HTTP " . $http_code . "): " . $response);
+    }
+
+    return json_decode($response, true);
+}
+
+// --- Usage ---
+ $API_KEY = "YOUR_API_KEY_HERE";
+ $data = get_funding_data($API_KEY, 30);
+
+foreach ($data["results"] as $item) {
+    echo $item["company_name"] . " raised " . $item["funding_amount"] . "\n";
+}
+```
+
+
+
+###  JavaScript (Funding API Example, Node.js 18+)
+
+
+
+```javascript
+/**
+ * Get latest startup funding rounds using ParheliaWeb API.
+ * Get your free API key: https://parheliaweb.com/register
+ */
+async function getFundingData(apiKey, maxDays = 30) {
+    const params = new URLSearchParams({
+        max_age_days: maxDays,
+        // Optional: add lang: "zh" for Chinese responses (defaults to English)
+    });
+
+    const response = await fetch(
+        `https://parheliaweb.com/v1/funding?${params.toString()}`,
+        {
+            headers: { "x-api-key": apiKey }
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`API error (HTTP ${response.status})`);
+    }
+
+    return response.json();
+}
+
+// --- Usage ---
+const API_KEY = "YOUR_API_KEY_HERE";
+
+getFundingData(API_KEY, 30)
+    .then(data => {
+        data.results.forEach(item => {
+            console.log(`${item.company_name} raised ${item.funding_amount}`);
+        });
+    })
+    .catch(err => console.error(err));
+```
+
+
+
+###  Go (Funding API Example)
+
+
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "io"
+    "log"
+    "net/http"
+)
+
+// getFundingData fetches latest startup funding rounds using ParheliaWeb API.
+// Get your free API key: https://parheliaweb.com/register
+func getFundingData(apiKey string, maxDays int) (map[string]interface{}, error) {
+    url := fmt.Sprintf("https://parheliaweb.com/v1/funding?max_age_days=%d", maxDays)
+    // Optional: append "&lang=zh" for Chinese responses (defaults to English)
+
+    req, err := http.NewRequest("GET", url, nil)
+    if err != nil {
+        return nil, err
+    }
+    req.Header.Set("x-api-key", apiKey)
+
+    resp, err := http.DefaultClient.Do(req)
+    if err != nil {
+        return nil, err
+    }
+    defer resp.Body.Close()
+
+    body, _ := io.ReadAll(resp.Body)
+    if resp.StatusCode != 200 {
+        return nil, fmt.Errorf("API error (HTTP %d): %s", resp.StatusCode, body)
+    }
+
+    var result map[string]interface{}
+    if err := json.Unmarshal(body, &result); err != nil {
+        return nil, err
+    }
+    return result, nil
+}
+
+func main() {
+    apiKey := "YOUR_API_KEY_HERE"
+    data, err := getFundingData(apiKey, 30)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    if results, ok := data["results"].([]interface{}); ok {
+        for _, item := range results {
+            row := item.(map[string]interface{})
+            fmt.Printf("%v raised %v\n", row["company_name"], row["funding_amount"])
+        }
+    }
+}
+```
+
+
+
 ###  Example Response (Pro tier)
 
 
@@ -200,7 +514,7 @@ if __name__ == "__main__":
 ```json
 {
   "user_tier": "pro",
-  "count": 2,
+  "count": 1,
   "max_age_days": 365,
   "last_crawled": "2026-05-28T12:04:02Z",
   "results": [
